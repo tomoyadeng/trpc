@@ -1,0 +1,8 @@
+jar {
+    baseName = 'trpc-sample-api'
+    version = "${projectVersion}"
+}
+
+dependencies {
+
+}

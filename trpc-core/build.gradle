@@ -1,0 +1,12 @@
+jar {
+    baseName = 'trpc-core'
+    version = "${projectVersion}"
+}
+
+dependencies {
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    compile group: 'io.netty', name: 'netty-all', version: '4.1.31.Final'
+    compile group: 'io.protostuff', name: 'protostuff-core', version: '1.5.9'
+    compile group: 'io.protostuff', name: 'protostuff-runtime', version: '1.5.9'
+    compile group: 'cglib', name: 'cglib', version: '3.2.8'
+}
