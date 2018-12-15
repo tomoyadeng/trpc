@@ -11,3 +11,4 @@ dependencies {
     compile group: 'cglib', name: 'cglib', version: '3.2.8'
     compile group: 'org.reflections', name: 'reflections', version: '0.9.11'
 }
+

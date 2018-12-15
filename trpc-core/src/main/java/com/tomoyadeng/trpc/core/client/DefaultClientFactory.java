@@ -72,6 +72,7 @@ public class DefaultClientFactory implements ClientFactory {
                 if (clazz.isInterface()) {
                     String className = clazz.getName();
                     List<EndPoint> endPoints = registry.discovery(className);
+                    log.info("discovery {} endPoints for {}", endPoints.size(), className);
                     serviceMap.put(className, endPoints);
                     endPoints.forEach(endPoint -> {
                         if (clientPool.get(endPoint) == null) {
