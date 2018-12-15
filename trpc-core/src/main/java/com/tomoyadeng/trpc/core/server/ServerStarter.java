@@ -4,7 +4,6 @@ import com.tomoyadeng.trpc.core.annotation.RpcService;
 import com.tomoyadeng.trpc.core.common.EndPoint;
 import com.tomoyadeng.trpc.core.config.Configuration;
 import com.tomoyadeng.trpc.core.registry.Registry;
-import com.tomoyadeng.trpc.core.util.ReflectionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
 
@@ -41,7 +40,9 @@ public class ServerStarter implements Server {
 
         Map<String, Object> serviceMap = new ConcurrentHashMap<>();
         classes.forEach(clazz -> {
-            String clazzName = ReflectionUtil.getInterfaceName(clazz);
+            RpcService rpcService = clazz.getAnnotation(RpcService.class);
+            Class<?> rpcClazz = rpcService.value();
+            String clazzName = rpcClazz.getName();
 
             try {
                 Object obj = clazz.getConstructor().newInstance();

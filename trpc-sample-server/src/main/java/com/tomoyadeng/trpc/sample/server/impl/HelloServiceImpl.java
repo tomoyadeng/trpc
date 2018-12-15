@@ -8,7 +8,7 @@ import java.net.Inet4Address;
 import java.net.UnknownHostException;
 
 @Slf4j
-@RpcService
+@RpcService(value = HelloService.class)
 public class HelloServiceImpl implements HelloService {
     @Override
     public String hello(String s) {

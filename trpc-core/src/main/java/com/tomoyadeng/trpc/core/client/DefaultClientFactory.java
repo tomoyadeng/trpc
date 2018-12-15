@@ -4,7 +4,6 @@ import com.tomoyadeng.trpc.core.annotation.RpcApi;
 import com.tomoyadeng.trpc.core.common.EndPoint;
 import com.tomoyadeng.trpc.core.config.Configuration;
 import com.tomoyadeng.trpc.core.registry.Registry;
-import com.tomoyadeng.trpc.core.util.ReflectionUtil;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import lombok.extern.slf4j.Slf4j;
@@ -70,15 +69,17 @@ public class DefaultClientFactory implements ClientFactory {
         ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(2);
         classes.forEach(clazz -> executorService.scheduleAtFixedRate(() -> {
             try {
-                String className = ReflectionUtil.getInterfaceName(clazz);
-                List<EndPoint> endPoints = registry.discovery(className);
-                serviceMap.put(className, endPoints);
-                endPoints.forEach(endPoint -> {
-                    if (clientPool.get(endPoint) == null) {
-                        Client client = getClient(endPoint, this.group);
-                        clientPool.put(endPoint, client);
-                    }
-                });
+                if (clazz.isInterface()) {
+                    String className = clazz.getName();
+                    List<EndPoint> endPoints = registry.discovery(className);
+                    serviceMap.put(className, endPoints);
+                    endPoints.forEach(endPoint -> {
+                        if (clientPool.get(endPoint) == null) {
+                            Client client = getClient(endPoint, this.group);
+                            clientPool.put(endPoint, client);
+                        }
+                    });
+                }
             } catch (Exception e) {
                 log.error("exception in register clazz " + clazz.getName(), e);
             }

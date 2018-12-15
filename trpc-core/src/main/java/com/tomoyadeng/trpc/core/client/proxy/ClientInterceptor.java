@@ -4,16 +4,15 @@ import com.tomoyadeng.trpc.core.client.Client;
 import com.tomoyadeng.trpc.core.client.ClientFactory;
 import com.tomoyadeng.trpc.core.common.TRpcRequest;
 import com.tomoyadeng.trpc.core.common.TRpcResponse;
-import com.tomoyadeng.trpc.core.util.ReflectionUtil;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
 import java.lang.reflect.Method;
 
-public class clientInterceptor implements MethodInterceptor {
+public class ClientInterceptor implements MethodInterceptor {
     private ClientFactory clientFactory;
 
-    public clientInterceptor(ClientFactory clientFactory) {
+    public ClientInterceptor(ClientFactory clientFactory) {
         this.clientFactory = clientFactory;
     }
 
@@ -21,7 +20,7 @@ public class clientInterceptor implements MethodInterceptor {
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
         TRpcRequest request = new TRpcRequest();
         Class clazz = method.getDeclaringClass();
-        String clazzName = ReflectionUtil.getInterfaceName(clazz);
+        String clazzName = clazz.getName();
 
         request.setId(System.currentTimeMillis());
         request.setClassName(clazzName);

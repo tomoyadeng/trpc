@@ -9,7 +9,7 @@ public class ClientProxy {
     public static <T> T create(Class<T> clazz, ClientFactory clientFactory) {
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(clazz);
-        enhancer.setCallback(new clientInterceptor(clientFactory));
+        enhancer.setCallback(new ClientInterceptor(clientFactory));
         return (T) enhancer.create();
     }
 }
