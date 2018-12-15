@@ -1,13 +1,13 @@
 package com.tomoyadeng.trpc.sample.server;
 
-import com.tomoyadeng.trpc.core.server.Server;
-import com.tomoyadeng.trpc.sample.api.HelloService;
+import com.tomoyadeng.trpc.core.common.EndPoint;
+import com.tomoyadeng.trpc.core.config.Configuration;
+import com.tomoyadeng.trpc.core.registry.Registry;
+import com.tomoyadeng.trpc.core.server.ServerStarter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.Executors;
 
 @Component
@@ -19,11 +19,15 @@ public class ServerBootstrap {
     }
 
     private void start() {
-        Map<String, Object> clazzMap = new HashMap<>();
-        clazzMap.put(HelloService.class.getName(), new HelloServiceImpl());
+        Configuration configuration = new Configuration();
+        try {
+            Registry registry = Registry.build(configuration);
+            registry.register(new EndPoint(configuration.getRegistryHost(), configuration.getRegistryPort()), null);
 
-        Server server = new Server("localhost", 8989, clazzMap);
-        log.warn("Start server on {}:{}", "localhost", 8989);
-        Executors.newSingleThreadExecutor().execute(server::start);
+            ServerStarter starter = new ServerStarter(configuration, registry, "com.tomoyadeng.trpc.sample.server.impl");
+            Executors.newSingleThreadExecutor().execute(starter::start);
+        } catch (Exception e) {
+            log.error("exception", e);
+        }
     }
 }

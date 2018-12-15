@@ -15,8 +15,10 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 dependencies {
-    compile group: 'com.tomoyadeng', name: 'trpc-core', version: '1.0'
     compile group: 'com.tomoyadeng', name: 'trpc-sample-api', version: '1.0'
     compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-aop')
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
