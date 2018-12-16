@@ -23,10 +23,6 @@ public class SimpleServer implements Server {
     private EndPoint endPoint;
     private final Map<String, Object> clazzMap;
 
-    public SimpleServer(String host, int port, Map<String, Object> clazzMap) {
-        this(new EndPoint(host, port), clazzMap);
-    }
-
     public SimpleServer(EndPoint endPoint, Map<String, Object> clazzMap) {
         this.endPoint = endPoint;
         this.clazzMap = clazzMap;

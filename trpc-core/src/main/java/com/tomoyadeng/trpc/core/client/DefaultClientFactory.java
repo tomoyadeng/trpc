@@ -47,6 +47,10 @@ public class DefaultClientFactory implements ClientFactory {
         }
 
         EndPoint endPoint = endPoints.get(random.nextInt(endPoints.size()));
+        Client client = clientPool.get(endPoint);
+        if (client != null) {
+            return client;
+        }
         return getClient(endPoint, this.group);
     }
 
