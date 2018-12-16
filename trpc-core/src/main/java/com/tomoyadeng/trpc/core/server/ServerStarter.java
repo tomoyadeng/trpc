@@ -21,7 +21,7 @@ public class ServerStarter implements Server {
 
     public ServerStarter(Configuration configuration, Registry registry, String packagePath) {
         this.configuration = configuration;
-        this.endPoint = new EndPoint(configuration.getRegistryHost(), configuration.getRegistryPort());
+        this.endPoint = configuration.getProviderEndPoint();
         this.registry = registry;
         this.packagePath = packagePath;
     }

@@ -3,9 +3,8 @@ package com.tomoyadeng.trpc.sample.config;
 import com.tomoyadeng.trpc.core.client.ClientFactory;
 import com.tomoyadeng.trpc.core.client.DefaultClientFactory;
 import com.tomoyadeng.trpc.core.client.proxy.ClientProxy;
-import com.tomoyadeng.trpc.core.common.EndPoint;
 import com.tomoyadeng.trpc.core.config.Configuration;
-import com.tomoyadeng.trpc.core.registry.LocalRegistry;
+import com.tomoyadeng.trpc.core.registry.EtcdRegistry;
 import com.tomoyadeng.trpc.core.registry.Registry;
 import com.tomoyadeng.trpc.sample.api.HelloService;
 import org.springframework.context.annotation.Bean;
@@ -26,7 +25,7 @@ public class ClientConfiguration {
 
     @Bean
     public Registry registry(Configuration configuration) {
-        return new LocalRegistry(new EndPoint(configuration.getRegistryHost(), configuration.getRegistryPort()));
+        return new EtcdRegistry();
     }
 
     @Bean

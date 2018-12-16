@@ -26,10 +26,6 @@ public class DefaultClientFactory implements ClientFactory {
     private ConcurrentMap<String, List<EndPoint>> serviceMap;
     private ConcurrentMap<EndPoint, Client> clientPool;
 
-    public DefaultClientFactory(Configuration configuration, String packagePath) throws Exception {
-        this(configuration, Registry.build(configuration), packagePath);
-    }
-
     public DefaultClientFactory(Configuration configuration, Registry registry, String packagePath) {
         this.configuration = configuration;
         this.registry = registry;
