@@ -16,8 +16,7 @@ apply plugin: 'io.spring.dependency-management'
 
 dependencies {
     compile group: 'com.tomoyadeng', name: 'trpc-sample-api', version: '1.0'
-    compile('org.springframework.boot:spring-boot-starter-web')
-    testCompile('org.springframework.boot:spring-boot-starter-test')
+    compile('org.springframework.boot:spring-boot-starter')
 }
 
 bootJar {
