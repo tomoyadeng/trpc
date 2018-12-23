@@ -4,13 +4,12 @@ jar {
 }
 
 dependencies {
-    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
-    compile group: 'io.netty', name: 'netty-all', version: '4.1.31.Final'
-    compile group: 'io.protostuff', name: 'protostuff-core', version: '1.5.9'
-    compile group: 'io.protostuff', name: 'protostuff-runtime', version: '1.5.9'
-    compile group: 'cglib', name: 'cglib', version: '3.2.8'
-    compile group: 'org.reflections', name: 'reflections', version: '0.9.11'
-    compile group: 'com.coreos', name: 'jetcd-core', version: '0.0.2'
-
+    compile('org.slf4j:slf4j-api:1.7.25')
+    compile('io.netty:netty-all:4.1.31.Final')
+    compile('io.protostuff:protostuff-core:1.5.9')
+    compile('io.protostuff:protostuff-runtime:1.5.9')
+    compile('cglib:cglib:3.2.8')
+    compile('org.reflections:reflections:0.9.11')
+    compile('com.coreos:jetcd-core:0.0.2')
 }
 

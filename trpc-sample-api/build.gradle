@@ -4,5 +4,5 @@ jar {
 }
 
 dependencies {
-    compile group: 'com.tomoyadeng', name: 'trpc-core', version: '1.0'
+    compile(project(':trpc-core'))
 }
