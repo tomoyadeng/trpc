@@ -28,7 +28,7 @@ public class ClientInterceptor implements MethodInterceptor {
         request.setParamTypes(method.getParameterTypes());
         request.setParams(args);
 
-        Client client = clientFactory.getClient(clazzName);
+        Client client = clientFactory.getClient(request);
 
         TRpcResponse response = client.send(request);
         if (response.hasException()) {

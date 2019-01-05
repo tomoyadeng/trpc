@@ -2,6 +2,7 @@ package com.tomoyadeng.trpc.core.client;
 
 import com.tomoyadeng.trpc.core.annotation.RpcApi;
 import com.tomoyadeng.trpc.core.common.EndPoint;
+import com.tomoyadeng.trpc.core.common.TRpcRequest;
 import com.tomoyadeng.trpc.core.config.Configuration;
 import com.tomoyadeng.trpc.core.registry.Registry;
 import io.netty.channel.EventLoopGroup;
@@ -10,13 +11,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
 
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.*;
 
 @Slf4j
-public class DefaultClientFactory implements ClientFactory {
-    private static final Random random = new Random();
+public class DefaultClientFactory extends AbstractClientFactory {
 
     private Configuration configuration;
     private Registry registry;
@@ -40,25 +39,21 @@ public class DefaultClientFactory implements ClientFactory {
         return this.configuration;
     }
 
-    public Client getClient(String serviceName) {
+    @Override
+    public Client getClient(TRpcRequest request) {
+        String serviceName = request.getClassName();
         List<EndPoint> endPoints = serviceMap.get(serviceName);
         if (endPoints == null || endPoints.size() == 0) {
             throw new IllegalStateException(serviceName + " not find");
         }
 
-        EndPoint endPoint = endPoints.get(random.nextInt(endPoints.size()));
+        EndPoint endPoint = getConfiguration().getLbStrategy().pick(endPoints, request);
+
         Client client = clientPool.get(endPoint);
         if (client != null) {
             return client;
         }
-        return getClient(endPoint, this.group);
-    }
-
-    private Client getClient(EndPoint endPoint, EventLoopGroup group) {
-        if (this.configuration.getClientType() == Configuration.ClientType.SIMPLE) {
-            return new SimpleClient(endPoint, group);
-        }
-        throw new IllegalArgumentException();
+        return newClient(endPoint, this.group);
     }
 
     @Override
@@ -76,7 +71,7 @@ public class DefaultClientFactory implements ClientFactory {
                     serviceMap.put(className, endPoints);
                     endPoints.forEach(endPoint -> {
                         if (clientPool.get(endPoint) == null) {
-                            Client client = getClient(endPoint, this.group);
+                            Client client = newClient(endPoint, this.group);
                             clientPool.put(endPoint, client);
                         }
                     });

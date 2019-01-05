@@ -1,5 +1,7 @@
 package com.tomoyadeng.trpc.core.config;
 
+import com.tomoyadeng.trpc.core.client.loadbalance.LBStrategy;
+import com.tomoyadeng.trpc.core.client.loadbalance.RandomLBStrategy;
 import com.tomoyadeng.trpc.core.common.EndPoint;
 import com.tomoyadeng.trpc.core.registry.Registry;
 import com.tomoyadeng.trpc.core.server.DefaultInstanceFactory;
@@ -18,6 +20,7 @@ public class Configuration {
     private InstanceFactory instanceFactory = new DefaultInstanceFactory();
     private ClientType clientType = ClientType.SIMPLE;
     private ServerType serverType = ServerType.SIMPLE;
+    private LBStrategy lbStrategy = new RandomLBStrategy();
 
     private String providerHost = LOCALHOST;
     private int providerPort = 8989;
