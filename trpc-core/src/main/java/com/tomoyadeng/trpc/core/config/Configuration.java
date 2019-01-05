@@ -1,6 +1,7 @@
 package com.tomoyadeng.trpc.core.config;
 
 import com.tomoyadeng.trpc.core.common.EndPoint;
+import com.tomoyadeng.trpc.core.registry.Registry;
 import com.tomoyadeng.trpc.core.server.DefaultInstanceFactory;
 import com.tomoyadeng.trpc.core.server.InstanceFactory;
 import lombok.Data;
@@ -20,6 +21,7 @@ public class Configuration {
 
     private String providerHost = LOCALHOST;
     private int providerPort = 8989;
+    private Registry registry;
 
     public enum ClientType {
         SIMPLE

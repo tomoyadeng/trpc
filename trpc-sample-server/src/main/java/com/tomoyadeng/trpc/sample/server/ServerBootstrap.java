@@ -1,50 +1,33 @@
 package com.tomoyadeng.trpc.sample.server;
 
 import com.tomoyadeng.trpc.core.config.Configuration;
-import com.tomoyadeng.trpc.core.registry.EtcdRegistry;
-import com.tomoyadeng.trpc.core.registry.Registry;
 import com.tomoyadeng.trpc.core.server.ServerStarter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Component
 @Slf4j
 public class ServerBootstrap {
-
-    @Value("${app.trpc.providerHost:#{null}}")
-    private String providerHost;
-
-    @Value("${app.trpc.providerPort:#{null}}")
-    private String providerPort;
-
-    @Value("${app.trpc.etcdRegistryAddr:#{null}}")
-    private String etcdResgitryAddress;
+    @Autowired
+    private ConfigHolder configHolder;
 
     @PostConstruct
     public void init() {
-        Configuration configuration = new Configuration();
-        if (providerHost != null) {
-            configuration.setProviderHost(providerHost);
-        }
-
-        if (providerPort != null) {
-            configuration.setProviderPort(Integer.parseInt(providerPort));
-        }
-
-        Registry registry = etcdResgitryAddress == null ? new EtcdRegistry() : new EtcdRegistry(etcdResgitryAddress);
-        start(configuration, registry);
-    }
-
-    private void start(Configuration configuration, Registry registry) {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        Configuration configuration = configHolder.getConfiguration();
         try {
-            ServerStarter starter = new ServerStarter(configuration, registry, "com.tomoyadeng.trpc.sample.server.impl");
-            Executors.newSingleThreadExecutor().execute(starter::start);
+            ServerStarter starter = new ServerStarter(configuration, configuration.getRegistry(), "com.tomoyadeng.trpc.sample.server.impl");
+            executorService.execute(starter::start);
         } catch (Exception e) {
             log.error("exception", e);
+        }
+        finally {
+            executorService.shutdown();
         }
     }
 }
