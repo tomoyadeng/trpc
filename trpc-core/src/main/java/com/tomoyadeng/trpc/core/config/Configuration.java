@@ -1,6 +1,8 @@
 package com.tomoyadeng.trpc.core.config;
 
 import com.tomoyadeng.trpc.core.common.EndPoint;
+import com.tomoyadeng.trpc.core.server.DefaultInstanceFactory;
+import com.tomoyadeng.trpc.core.server.InstanceFactory;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,6 +14,7 @@ import java.net.UnknownHostException;
 public class Configuration {
     private static final String LOCALHOST = "localhost";
 
+    private InstanceFactory instanceFactory = new DefaultInstanceFactory();
     private ClientType clientType = ClientType.SIMPLE;
     private ServerType serverType = ServerType.SIMPLE;
 

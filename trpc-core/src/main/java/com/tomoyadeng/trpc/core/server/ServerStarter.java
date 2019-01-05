@@ -45,7 +45,7 @@ public class ServerStarter implements Server {
             String clazzName = rpcClazz.getName();
 
             try {
-                Object obj = clazz.getConstructor().newInstance();
+                Object obj = configuration.getInstanceFactory().newInstance(clazz);
                 serviceMap.put(clazzName, obj);
                 registry.register(endPoint, clazzName);
             } catch (Exception e) {
