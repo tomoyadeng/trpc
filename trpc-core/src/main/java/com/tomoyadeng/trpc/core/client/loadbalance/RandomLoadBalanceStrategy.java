@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 public class RandomLoadBalanceStrategy implements LoadBalanceStrategy {
-    private static final Random random = new Random();
+    private final Random random = new Random();
 
     @Override
     public EndPoint pick(List<EndPoint> endPoints, TRpcRequest request) {

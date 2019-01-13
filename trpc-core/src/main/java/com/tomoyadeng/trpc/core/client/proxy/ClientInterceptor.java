@@ -13,8 +13,8 @@ import java.lang.reflect.Method;
 
 public class ClientInterceptor implements MethodInterceptor {
     private static final IdGenerator SHARED_ID_GENERATOR = new SimpleIdGenerator();
-    private ClientFactory clientFactory;
-    private IdGenerator idGenerator;
+    private final ClientFactory clientFactory;
+    private final IdGenerator idGenerator;
 
     public ClientInterceptor(ClientFactory clientFactory) {
         this(clientFactory, SHARED_ID_GENERATOR);
