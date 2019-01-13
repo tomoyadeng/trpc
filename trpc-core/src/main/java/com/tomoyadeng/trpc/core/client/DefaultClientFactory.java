@@ -47,7 +47,7 @@ public class DefaultClientFactory extends AbstractClientFactory {
             throw new IllegalStateException(serviceName + " not find");
         }
 
-        EndPoint endPoint = getConfiguration().getLbStrategy().pick(endPoints, request);
+        EndPoint endPoint = getConfiguration().getLoadBalanceStrategy().pick(endPoints, request);
 
         Client client = clientPool.get(endPoint);
         if (client != null) {

@@ -6,7 +6,7 @@ import com.tomoyadeng.trpc.core.common.TRpcRequest;
 import java.util.List;
 import java.util.Random;
 
-public class RandomLBStrategy implements LBStrategy {
+public class RandomLoadBalanceStrategy implements LoadBalanceStrategy {
     private static final Random random = new Random();
 
     @Override

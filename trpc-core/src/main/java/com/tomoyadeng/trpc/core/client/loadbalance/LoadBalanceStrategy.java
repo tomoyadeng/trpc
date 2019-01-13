@@ -5,6 +5,6 @@ import com.tomoyadeng.trpc.core.common.TRpcRequest;
 
 import java.util.List;
 
-public interface LBStrategy {
+public interface LoadBalanceStrategy {
     EndPoint pick(List<EndPoint> endPoints, TRpcRequest request);
 }
