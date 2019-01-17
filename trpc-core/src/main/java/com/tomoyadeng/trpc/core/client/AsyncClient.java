@@ -16,9 +16,9 @@ import java.util.concurrent.ExecutionException;
 
 @Slf4j
 public class AsyncClient extends SimpleChannelInboundHandler<TRpcResponse> implements Client {
-    private EndPoint endPoint;
-    private EventLoopGroup group;
-    private Channel channel;
+    private final EndPoint endPoint;
+    private final EventLoopGroup group;
+    private volatile Channel channel;
 
     public AsyncClient(EndPoint endPoint, EventLoopGroup group) {
         this.endPoint = endPoint;
@@ -36,13 +36,19 @@ public class AsyncClient extends SimpleChannelInboundHandler<TRpcResponse> imple
             try {
                 connect();
             } catch (InterruptedException e) {
-                throw new IllegalStateException(e);
+                return exceptionFuture(e);
             }
         }
 
         DefaultFuture future = DefaultFuture.newFuture(request, this.channel);
         channel.writeAndFlush(request);
         return CompletableFuture.supplyAsync(future::get, group);
+    }
+
+    private CompletableFuture<TRpcResponse> exceptionFuture(Exception e) {
+        CompletableFuture<TRpcResponse> completableFuture = new CompletableFuture<>();
+        completableFuture.completeExceptionally(e);
+        return completableFuture;
     }
 
     @Override
@@ -85,7 +91,9 @@ public class AsyncClient extends SimpleChannelInboundHandler<TRpcResponse> imple
 
     @Override
     public void disconnect() throws InterruptedException {
-        channel.close().sync();
+        if (channel != null) {
+            channel.close().sync();
+        }
     }
 
     @Override
