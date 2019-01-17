@@ -7,10 +7,16 @@ import io.netty.channel.EventLoopGroup;
 public abstract class AbstractClientFactory implements ClientFactory {
 
     protected Client newClient(EndPoint endPoint, EventLoopGroup group) {
-        if (this.getConfiguration().getClientType() == Configuration.ClientType.SIMPLE) {
-            return new SimpleClient(endPoint, group);
+        Client client;
+        switch (this.getConfiguration().getClientType()) {
+            case ASYNC:
+                client = new AsyncClient(endPoint, group);
+                break;
+            case SIMPLE:
+            default:
+                client = new SimpleClient(endPoint, group);
         }
-        throw new IllegalArgumentException();
+        return client;
     }
 
 }

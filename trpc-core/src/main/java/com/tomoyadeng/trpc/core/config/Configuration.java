@@ -27,7 +27,8 @@ public class Configuration {
     private Registry registry;
 
     public enum ClientType {
-        SIMPLE
+        SIMPLE,
+        ASYNC
     }
 
     public enum ServerType {

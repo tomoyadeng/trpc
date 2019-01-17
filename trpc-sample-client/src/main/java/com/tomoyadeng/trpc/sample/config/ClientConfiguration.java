@@ -17,6 +17,7 @@ public class ClientConfiguration {
     @Bean
     public ClientFactory clientFactory() {
         Configuration configuration = new Configuration();
+        configuration.setClientType(Configuration.ClientType.ASYNC);
         Registry registry = registry(configuration);
         ClientFactory clientFactory = new DefaultClientFactory(configuration, registry, "com.tomoyadeng.trpc.sample.api");
         clientFactory.init();
