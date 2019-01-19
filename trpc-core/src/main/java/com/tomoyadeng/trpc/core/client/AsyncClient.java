@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 
 @Slf4j
 public class AsyncClient extends SimpleChannelInboundHandler<TRpcResponse> implements Client {
@@ -23,6 +24,11 @@ public class AsyncClient extends SimpleChannelInboundHandler<TRpcResponse> imple
     public AsyncClient(EndPoint endPoint, EventLoopGroup group) {
         this.endPoint = endPoint;
         this.group = group;
+    }
+
+    @Override
+    public ExecutorService getExecutor() {
+        return this.group;
     }
 
     @Override

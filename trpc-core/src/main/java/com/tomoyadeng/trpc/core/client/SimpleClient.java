@@ -12,6 +12,8 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.concurrent.ExecutorService;
+
 @Slf4j
 public class SimpleClient extends SimpleChannelInboundHandler<TRpcResponse> implements Client {
     private final EndPoint endPoint;
@@ -39,6 +41,11 @@ public class SimpleClient extends SimpleChannelInboundHandler<TRpcResponse> impl
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         log.error("client caught exception", cause);
         ctx.close();
+    }
+
+    @Override
+    public ExecutorService getExecutor() {
+        return this.group;
     }
 
     @Override
