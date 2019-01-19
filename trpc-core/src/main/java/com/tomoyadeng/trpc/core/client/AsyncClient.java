@@ -42,7 +42,7 @@ public class AsyncClient extends SimpleChannelInboundHandler<TRpcResponse> imple
 
         DefaultFuture future = DefaultFuture.newFuture(request, this.channel);
         channel.writeAndFlush(request);
-        return CompletableFuture.supplyAsync(future::get, group);
+        return future.getCompletableFuture(group);
     }
 
     private CompletableFuture<TRpcResponse> exceptionFuture(Exception e) {

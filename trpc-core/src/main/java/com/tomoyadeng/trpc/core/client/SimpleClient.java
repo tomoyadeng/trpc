@@ -14,12 +14,12 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class SimpleClient extends SimpleChannelInboundHandler<TRpcResponse> implements Client {
-    private EndPoint endPoint;
-    private EventLoopGroup group;
+    private final EndPoint endPoint;
+    private final EventLoopGroup group;
 
-    private TRpcResponse response;
+    private volatile TRpcResponse response;
     private final Object monitor = new Object();
-    private Channel channel;
+    private volatile Channel channel;
 
     public SimpleClient(EndPoint endPoint, EventLoopGroup group) {
         this.endPoint = endPoint;
